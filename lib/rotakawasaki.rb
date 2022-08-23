@@ -15,6 +15,8 @@ module Rotakawasaki
         message = lead.message&.downcase || ''
         if message['campinas']
           "#{source_name} - Campinas"
+        elsif message['jundiaí']
+          "#{source_name} - Jundiaí"
         else
           source_name
         end
