@@ -66,6 +66,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
 
     let(:source_name) { 'Followize' }
+    let(:switch_source) { described_class.switch_source(lead) }
 
     it 'return source Followize - Jundiaí' do
       expect(switch_source).to eq("#{source_name} - Jundiaí")
@@ -76,6 +77,14 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
 
       it 'return Followize - Campinas' do
         expect(switch_source).to eq("#{source_name} - Campinas")
+      end
+    end
+
+    context 'when description does not have the store location' do
+      before { lead.description = 'Rota K: Instagran - Vendedor - Instagram' }
+
+      it 'return Followize - Campinas' do
+        expect(switch_source).to eq("#{source_name}")
       end
     end
   end

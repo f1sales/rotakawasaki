@@ -11,14 +11,31 @@ module Rotakawasaki
   class F1SalesCustom::Hooks::Lead
     class << self
       def switch_source(lead)
-        source_name = lead.source.name
-        message = lead.message&.downcase || ''
-        if message['campinas']
-          "#{source_name} - Campinas"
-        elsif message['jundiaí']
-          "#{source_name} - Jundiaí"
+        @source_name = lead.source.name
+        source_name_down = @source_name.downcase
+        @message = lead.message&.downcase || ''
+        @description = lead.description&.downcase || ''
+        return facebook_source if source_name_down['facebook']
+        return followize_source if source_name_down['followize']
+      end
+
+      def facebook_source
+        if @message['campinas']
+          "#{@source_name} - Campinas"
+        elsif @message['jundiaí']
+          "#{@source_name} - Jundiaí"
         else
-          source_name
+          @source_name
+        end
+      end
+
+      def followize_source
+        if @description['campinas']
+          "#{@source_name} - Campinas"
+        elsif @description['jundiaí']
+          "#{@source_name} - Jundiaí"
+        else
+          @source_name
         end
       end
     end
