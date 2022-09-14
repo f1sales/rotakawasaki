@@ -84,8 +84,54 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       before { lead.description = 'Rota K: Instagran - Vendedor - Instagram' }
 
       it 'return Followize - Campinas' do
-        expect(switch_source).to eq("#{source_name}")
+        expect(switch_source).to eq(source_name)
       end
+    end
+  end
+
+  context 'when is from Duotalk' do
+    let(:lead) do
+      lead = OpenStruct.new
+      lead.source = source
+
+      lead
+    end
+
+    let(:source) do
+      source = OpenStruct.new
+      source.name = source_name
+
+      source
+    end
+
+    let(:source_name) { 'Duotalk Chatbot - Vendas' }
+    let(:switch_source) { described_class.switch_source(lead) }
+
+    it 'return Followize - Campinas' do
+      expect(switch_source).to eq(source_name)
+    end
+  end
+
+  context 'when is a different source' do
+    let(:lead) do
+      lead = OpenStruct.new
+      lead.source = source
+
+      lead
+    end
+
+    let(:source) do
+      source = OpenStruct.new
+      source.name = source_name
+
+      source
+    end
+
+    let(:source_name) { 'Tartarugas Ninjas são D+' }
+    let(:switch_source) { described_class.switch_source(lead) }
+
+    it 'return Followize - Campinas' do
+      expect(switch_source).to eq(source_name)
     end
   end
 end

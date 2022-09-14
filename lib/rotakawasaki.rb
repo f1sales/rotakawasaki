@@ -17,6 +17,8 @@ module Rotakawasaki
         @description = lead.description&.downcase || ''
         return facebook_source if source_name_down['facebook']
         return followize_source if source_name_down['followize']
+
+        @source_name
       end
 
       def facebook_source
