@@ -83,7 +83,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     context 'when description does not have the store location' do
       before { lead.description = 'Rota K: Instagran - Vendedor - Instagram' }
 
-      it 'return Followize - Campinas' do
+      it 'return Followize' do
         expect(switch_source).to eq(source_name)
       end
     end
@@ -93,6 +93,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     let(:lead) do
       lead = OpenStruct.new
       lead.source = source
+      lead.message = ''
 
       lead
     end
@@ -107,8 +108,24 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     let(:source_name) { 'Duotalk Chatbot - Vendas' }
     let(:switch_source) { described_class.switch_source(lead) }
 
-    it 'return Followize - Campinas' do
+    it 'return Duotalk' do
       expect(switch_source).to eq(source_name)
+    end
+
+    context 'when description does not have the store location' do
+      before { lead.message = 'url: NaN Mensagem: Conversa iniciada via whatsapp Nome: Marina Marketing Loja: Rota K Campinas Atendimento: Motocicletas' }
+
+      it 'return Followize - Campinas' do
+        expect(switch_source).to eq("#{source_name} - Campinas")
+      end
+    end
+
+    context 'when description does not have the store location' do
+      before { lead.message = 'url: NaN Mensagem: Conversa iniciada via whatsapp Nome: Marina Marketing Loja: Rota K Jundiaí Atendimento: Motocicletas' }
+
+      it 'return Followize - Campinas' do
+        expect(switch_source).to eq("#{source_name} - Jundiaí")
+      end
     end
   end
 

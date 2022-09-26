@@ -17,6 +17,7 @@ module Rotakawasaki
         @description = lead.description&.downcase || ''
         return facebook_source if source_name_down['facebook']
         return followize_source if source_name_down['followize']
+        return duotalk_source if source_name_down['duotalk']
 
         @source_name
       end
@@ -35,6 +36,16 @@ module Rotakawasaki
         if @description['campinas']
           "#{@source_name} - Campinas"
         elsif @description['jundiaí']
+          "#{@source_name} - Jundiaí"
+        else
+          @source_name
+        end
+      end
+
+      def duotalk_source
+        if @message['campinas']
+          "#{@source_name} - Campinas"
+        elsif @message['jundiaí']
           "#{@source_name} - Jundiaí"
         else
           @source_name
