@@ -20,30 +20,30 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     let(:source_name) { 'Facebook - Rota Kawasaki' }
     let(:switch_source) { described_class.switch_source(lead) }
 
-    it 'return with name Campinas' do
+    it 'return Facebook - Rota Kawasaki - Campinas' do
       expect(switch_source).to eq("#{source_name} - Campinas")
     end
 
     context 'when message comes nil' do
       before { lead.message = nil }
 
-      it 'return the original source' do
+      it 'return Facebook - Rota Kawasaki' do
         expect(switch_source).to eq(source_name)
       end
     end
 
-    context 'when message comes to jundiaí' do
+    context 'when message comes with jundiaí' do
       before { lead.message = 'em_qual_modelo_você_tem_interesse?: z400; city: Itatiba; por_qual_loja_você_deseja_ser_atendido?: jundiaí' }
 
-      it 'return the original source' do
+      it 'return Facebook - Rota Kawasaki - Jundiaí' do
         expect(switch_source).to eq("#{source_name} - Jundiaí")
       end
     end
 
-    context 'when message comes to jundiaí' do
+    context 'when message comes with jundiaí' do
       before { lead.message = 'em_qual_modelo_você_tem_interesse?: Nina 400; cidade: Jundiaí' }
 
-      it 'return the original source' do
+      it 'return Facebook - Rota Kawasaki - Jundiaí' do
         expect(switch_source).to eq("#{source_name} - Jundiaí")
       end
     end
@@ -112,18 +112,18 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       expect(switch_source).to eq(source_name)
     end
 
-    context 'when description does not have the store location' do
+    context 'when message comes with Campinas' do
       before { lead.message = 'url: NaN Mensagem: Conversa iniciada via whatsapp Nome: Marina Marketing Loja: Rota K Campinas Atendimento: Motocicletas' }
 
-      it 'return Followize - Campinas' do
+      it 'return Duotalk - Campinas' do
         expect(switch_source).to eq("#{source_name} - Campinas")
       end
     end
 
-    context 'when description does not have the store location' do
+    context 'when message comes with Jundiaí' do
       before { lead.message = 'url: NaN Mensagem: Conversa iniciada via whatsapp Nome: Marina Marketing Loja: Rota K Jundiaí Atendimento: Motocicletas' }
 
-      it 'return Followize - Campinas' do
+      it 'return Duotalk - Jundiaí' do
         expect(switch_source).to eq("#{source_name} - Jundiaí")
       end
     end
@@ -147,7 +147,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     let(:source_name) { 'Tartarugas Ninjas são D+' }
     let(:switch_source) { described_class.switch_source(lead) }
 
-    it 'return Followize - Campinas' do
+    it 'return original source' do
       expect(switch_source).to eq(source_name)
     end
   end
