@@ -32,10 +32,14 @@ module Rotakawasaki
         @lead.description&.downcase || ''
       end
 
+      def product
+        @lead.product&.name&.downcase || ''
+      end
+
       def facebook_source
-        if message['campinas']
+        if message['campinas'] || product['campinas']
           "#{@source_name} - Campinas"
-        elsif message['jundiaí']
+        elsif message['jundia'] || product['jundia']
           "#{@source_name} - Jundiaí"
         else
           @source_name
@@ -45,7 +49,7 @@ module Rotakawasaki
       def followize_source
         if description['campinas'] || message['campinas']
           "#{@source_name} - Campinas"
-        elsif description['jundiaí'] || message['jundiaí']
+        elsif description['jundia'] || message['jundia']
           "#{@source_name} - Jundiaí"
         else
           @source_name
@@ -55,7 +59,7 @@ module Rotakawasaki
       def duotalk_source
         if message['campinas']
           "#{@source_name} - Campinas"
-        elsif message['jundiaí']
+        elsif message['jundia']
           "#{@source_name} - Jundiaí"
         else
           @source_name
