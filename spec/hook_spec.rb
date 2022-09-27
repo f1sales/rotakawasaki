@@ -5,6 +5,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     let(:lead) do
       lead = OpenStruct.new
       lead.source = source
+      lead.product = product
       lead.message = 'city: Piracicaba; em_qual_loja_você_prefere_ser_atendido?: campinas'
 
       lead
@@ -15,6 +16,13 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       source.name = source_name
 
       source
+    end
+
+    let(:product) do
+      product = OpenStruct.new
+      product.name = nil
+
+      product
     end
 
     let(:source_name) { 'Facebook - Rota Kawasaki' }
@@ -33,7 +41,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
 
     context 'when message comes with jundiaí' do
-      before { lead.message = 'em_qual_modelo_você_tem_interesse?: z400; city: Itatiba; por_qual_loja_você_deseja_ser_atendido?: jundiaí' }
+      before { lead.message = 'em_qual_modelo_você_tem_interesse?: Z400; cidade: Jundiai' }
 
       it 'return Facebook - Rota Kawasaki - Jundiaí' do
         expect(switch_source).to eq("#{source_name} - Jundiaí")
@@ -45,6 +53,26 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
 
       it 'return Facebook - Rota Kawasaki - Jundiaí' do
         expect(switch_source).to eq("#{source_name} - Jundiaí")
+      end
+    end
+
+    context 'when city comes with product' do
+      before { lead.message = '' }
+
+      context 'when product name contains CAMPINAS' do
+        before { product.name = 'SHOWROOM PROMOCIONAL CAMPINAS' }
+
+        it 'return Facebook - Rota Kawasaki - Jundiaí' do
+          expect(switch_source).to eq("#{source_name} - Campinas")
+        end
+      end
+
+      context 'when product name contains JUNDIAÍ' do
+        before { product.name = 'SHOWROOM PROMOCIONAL JUNDIAÍ' }
+
+        it 'return Facebook - Rota Kawasaki - Jundiaí' do
+          expect(switch_source).to eq("#{source_name} - Jundiaí")
+        end
       end
     end
   end
