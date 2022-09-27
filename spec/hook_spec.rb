@@ -87,6 +87,30 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
         expect(switch_source).to eq(source_name)
       end
     end
+
+    context 'when the keyword comes in the message' do
+      before { lead.description = '' }
+
+      it 'return Followize' do
+        expect(switch_source).to eq(source_name)
+      end
+
+      context 'when message comes with ' do
+        before { lead.message = 'url: https://www.rotakawasaki.com.br/novos/versys-650/?utm_source=google&utm_medium=cpc&utm_campaign=conversao-aquisicao-leads-google-search-institucional-versys-650&utm_content=anuncio-responsivo-&utm_term=palavras-chave-novos&gclid=CjwKCAjwm8WZBhBUEiwA178UnGTfxGs_bgKzIf8-GiNugdg9pKjNTV8piyyTqWcpWmbn5FGEq3LHHxoCj6MQAvD_BwE name: Mario me responde uma pergunta qual tempo de entrega versys 650 2023 phone: (35) 99984-6980 Telefone: (35) 99984-6980 Loja: Rota K Jundiaí Atendimento: Motocicletas landLinePhone: 35999846980 @loja: Rota K Jundiaí' }
+
+        it 'return Followize' do
+          expect(switch_source).to eq("#{source_name} - Jundiaí")
+        end
+      end
+
+      context 'when message comes with ' do
+        before { lead.message = 'url: https://www.rotakawasaki.com.br/?utm_source=google&utm_medium=cpc&utm_campaign=conversao-aquisicao-leads-google-search-institucional-rota-k&utm_content=anuncio-responsivo-&utm_term=palavras-chave-novos&gclid=CjwKCAjwm8WZBhBUEiwA178UnFAFEMDrRn4mAhsWCDqirHOa4BJKLa9-Netv2dZ5WQBRe_qzI9x5GxoCuIMQAvD_BwE name: Luiz phone: (19) 99410-3444 Telefone: (19) 99410-3444 Loja: Rota K Campinas Atendimento: Motocicletas landLinePhone: 19994103444 @loja: Rota K Campinas' }
+
+        it 'return Followize' do
+          expect(switch_source).to eq("#{source_name} - Campinas")
+        end
+      end
+    end
   end
 
   context 'when is from Duotalk' do
