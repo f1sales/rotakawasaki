@@ -47,7 +47,9 @@ module Rotakawasaki
       end
 
       def followize_source
-        if description['campinas'] || message['campinas']
+        if description['duotalk']
+          nil
+        elsif description['campinas'] || message['campinas']
           "#{@source_name} - Campinas"
         elsif description['jundia'] || message['jundia']
           "#{@source_name} - Jundiaí"
