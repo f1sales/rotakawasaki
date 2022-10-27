@@ -4,9 +4,86 @@ require_relative 'rotakawasaki/version'
 require 'f1sales_custom/parser'
 require 'f1sales_custom/source'
 require 'f1sales_custom/hooks'
+require 'f1sales_helpers'
 
 module Rotakawasaki
   class Error < StandardError; end
+
+  class F1SalesCustom::Email::Source
+    def self.all
+      [
+        {
+          email_id: 'website',
+          name: 'Website'
+        }
+      ]
+    end
+  end
+
+  class F1SalesCustom::Email::Parser
+    def parse
+      {
+        source: source,
+        customer: customer,
+        product: product,
+        message: lead_message,
+        description: lead_description
+      }
+    end
+
+    def parsed_email
+      @email.body.colons_to_hash(/(#{regular_expression}).*?:/, false)
+    end
+
+    def regular_expression
+      'Nome|Fone|E-mail|Pagina|Interesse|Unidade|Resposta|Mensagem'
+    end
+
+    def source
+      {
+        name: F1SalesCustom::Email::Source.all[0][:name]
+      }
+    end
+
+    def customer
+      {
+        name: customer_name,
+        phone: customer_phone,
+        email: customer_email
+      }
+    end
+
+    def customer_name
+      parsed_email['nome']
+    end
+
+    def customer_phone
+      parsed_email['fone']
+    end
+
+    def customer_email
+      parsed_email['email']&.split&.first || ''
+    end
+
+    def product
+      {
+        link: product_link,
+        name: ''
+      }
+    end
+
+    def product_link
+      parsed_email['pagina']
+    end
+
+    def lead_message
+      parsed_email['mensagem']
+    end
+
+    def lead_description
+      "Interesse: #{parsed_email['interesse']} - Resposta: #{parsed_email['resposta']} - Unidade: #{parsed_email['unidade']}"
+    end
+  end
 
   class F1SalesCustom::Hooks::Lead
     class << self
