@@ -6,7 +6,7 @@ RSpec.describe F1SalesCustom::Email::Parser do
     let(:email) do
       email = OpenStruct.new
       email.to = [email: 'website@rotakawasaki.f1sales.net']
-      email.subject = 'Site Rota K - Nathanael Splinter - Formulário Campinas'
+      email.subject = 'Site Rota K - Teste Followize - Quero Comprar - Formulário Jundiaí'
       email.body = "Nome: Teste Followize\nE-mail: followize@teste.com\nFone: 99212345132\nInteresse: Consórcio\nUnidade: Jundiaí\nResposta: Ligação\nMensagem: Lead teste, favor não responder\nPagina:   https://www.rotakawasaki.com.br/novos/ninja-zx-10r-2022/"
 
       email
@@ -43,7 +43,7 @@ RSpec.describe F1SalesCustom::Email::Parser do
     end
 
     it 'contains description' do
-      expect(parsed_email[:description]).to eq('Interesse: Consórcio - Resposta: Ligação - Unidade: Jundiaí')
+      expect(parsed_email[:description]).to eq('Interesse: Consórcio - Resposta: Ligação - Unidade: Jundiaí - Formulário Jundiaí')
     end
   end
 end

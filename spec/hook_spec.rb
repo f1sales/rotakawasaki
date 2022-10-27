@@ -192,6 +192,26 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
   end
 
+  context 'when is from website' do
+    let(:lead) do
+      lead = OpenStruct.new
+      lead.source = source
+      lead.message = ''
+
+      lead
+    end
+
+    let(:source) do
+      source = OpenStruct.new
+      source.name = source_name
+
+      source
+    end
+
+    let(:source_name) { 'Website' }
+    let(:switch_source) { described_class.switch_source(lead) }
+  end
+
   context 'when is a different source' do
     let(:lead) do
       lead = OpenStruct.new

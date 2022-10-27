@@ -81,7 +81,11 @@ module Rotakawasaki
     end
 
     def lead_description
-      "Interesse: #{parsed_email['interesse']} - Resposta: #{parsed_email['resposta']} - Unidade: #{parsed_email['unidade']}"
+      "Interesse: #{parsed_email['interesse']} - Resposta: #{parsed_email['resposta']} - Unidade: #{parsed_email['unidade']} - #{subject}"
+    end
+
+    def subject
+      @email.subject.split(' - ').last
     end
   end
 
