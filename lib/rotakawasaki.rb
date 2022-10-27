@@ -13,8 +13,8 @@ module Rotakawasaki
       def switch_source(lead)
         @lead = lead
         @source_name = @lead.source.name
-        return facebook_source if source_name_down['facebook']
         return followize_source if source_name_down['followize']
+        return facebook_source if source_name_down['facebook']
         return duotalk_source if source_name_down['duotalk']
 
         @source_name
