@@ -116,9 +116,10 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       end
     end
 
-    context 'when description have duotalk' do
+    context 'when is from duotalk' do
       before do
-        lead.description = ': Duotalk - WhatsApp API [followize_id: 16562072]'
+        source.name = 'Followize - Duotalk - WhatsApp API - Jundiaí'
+        lead.description = '[followize_id: 16562072]'
         lead.message = 'url: NaN Mensagem: Conversa iniciada via whatsapp Atendimento: Venda de Motocicletas Loja: Rota K Campinas landLinePhone: 19983560607 @loja: Rota K Campinas'
       end
 
