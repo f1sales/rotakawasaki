@@ -93,7 +93,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       source
     end
 
-    let(:source_name) { 'Followize' }
+    let(:source_name) { 'Followize - Instagran - Vendedor' }
     let(:switch_source) { described_class.switch_source(lead) }
 
     it 'return source Followize - Jundiaí' do
