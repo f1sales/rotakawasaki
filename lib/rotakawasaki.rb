@@ -51,6 +51,7 @@ module Rotakawasaki
 
     def form_kind
       return 'Contato' if subject.downcase['contato']
+      return 'Consórcio' if subject.downcase['consórcio']
 
       'Produto'
     end

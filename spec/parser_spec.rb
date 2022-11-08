@@ -103,7 +103,7 @@ RSpec.describe F1SalesCustom::Email::Parser do
       email = OpenStruct.new
       email.to = [email: 'website@rotakawasaki.f1sales.net']
       email.subject = 'Site Rota K - Quero Consórcio'
-      email.body = "Nome: #{customer_name}\nE-mail: #{customer_email}\nFone: #{customer_phone}\nInteresse: Consórcio\nUnidade: Jundiaí\nResposta: Ligação\nMensagem: Lead teste, favor não responder\nPagina:   https://www.rotakawasaki.com.br/novos/ninja-zx-10r-2022/"
+      email.body = "Nome: #{customer_name}\nE-mail: #{customer_email}\nFone: #{customer_phone}\nUnidade: #{store}\nResposta: Ligação\nMensagem: Lead teste, favor não responder\nPagina:   https://www.rotakawasaki.com.br/novos/ninja-zx-10r-2022/"
 
       email
     end
@@ -115,15 +115,15 @@ RSpec.describe F1SalesCustom::Email::Parser do
     end
 
     it 'contains name' do
-      expect(parsed_email[:customer][:name]).to eq('Teste Followize')
+      expect(parsed_email[:customer][:name]).to eq(customer_name)
     end
 
     it 'contains phone' do
-      expect(parsed_email[:customer][:phone]).to eq('99212345132')
+      expect(parsed_email[:customer][:phone]).to eq(customer_phone)
     end
 
     it 'contains email' do
-      expect(parsed_email[:customer][:email]).to eq('followize@teste.com')
+      expect(parsed_email[:customer][:email]).to eq(customer_email)
     end
 
     it 'contains product name' do
@@ -139,10 +139,7 @@ RSpec.describe F1SalesCustom::Email::Parser do
     end
 
     it 'contains description' do
-      expect(parsed_email[:description]).to eq('Interesse: Consórcio - Resposta: Ligação - Unidade: Jundiaí - Formulário Jundiaí')
+      expect(parsed_email[:description]).to eq("Interesse:  - Resposta: Ligação - Unidade: #{store} - Quero Consórcio")
     end
   end
 end
-
-'Form Contato -> Website - Página de Contato'
-'Form Novos -> Website - Página de Produtos'
