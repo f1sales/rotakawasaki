@@ -41,12 +41,18 @@ module Rotakawasaki
 
     def source
       {
-        name: "#{source_website} - Contato"
+        name: "#{source_website} - #{form_kind}"
       }
     end
 
     def source_website
       F1SalesCustom::Email::Source.all[0][:name]
+    end
+
+    def form_kind
+      return 'Contato' if subject.downcase['contato']
+
+      'Produto'
     end
 
     def customer
@@ -71,7 +77,7 @@ module Rotakawasaki
 
     def product
       {
-        link: product_link,
+        link: product_link || '',
         name: ''
       }
     end
@@ -85,11 +91,23 @@ module Rotakawasaki
     end
 
     def lead_description
-      "Interesse: #{parsed_email['interesse']} - Resposta: #{parsed_email['resposta']} - Unidade: #{parsed_email['unidade']} - #{subject}"
+      "Interesse: #{interest} - Resposta: #{answer} - Unidade: #{unit} - #{subject.split(' - ').last}"
     end
 
     def subject
-      @email.subject.split(' - ').last
+      @email.subject
+    end
+
+    def interest
+      parsed_email['interesse']
+    end
+
+    def answer
+      parsed_email['resposta']
+    end
+
+    def unit
+      parsed_email['unidade']
     end
   end
 
