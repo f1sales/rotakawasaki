@@ -194,6 +194,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
   end
 
   context 'when is from website' do
+    let(:source_feature) { %w[Produto Contato Consórcio].sample }
     let(:lead) do
       lead = OpenStruct.new
       lead.source = source
@@ -209,11 +210,11 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       source
     end
 
-    let(:source_name) { 'Website' }
+    let(:source_name) { "Website - #{source_feature}" }
     let(:switch_source) { described_class.switch_source(lead) }
 
     it 'return website - Campinas' do
-      
+      expect(switch_source).to eq(source_name)
     end
   end
 
