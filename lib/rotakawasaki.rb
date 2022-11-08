@@ -41,8 +41,12 @@ module Rotakawasaki
 
     def source
       {
-        name: F1SalesCustom::Email::Source.all[0][:name]
+        name: "#{source_website} - Contato"
       }
+    end
+
+    def source_website
+      F1SalesCustom::Email::Source.all[0][:name]
     end
 
     def customer

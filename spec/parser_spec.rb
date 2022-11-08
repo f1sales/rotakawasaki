@@ -4,15 +4,16 @@ require 'faker'
 
 RSpec.describe F1SalesCustom::Email::Parser do
   let(:customer_name) { Faker::Name.name }
-  let(:customer_phone) { Faker::Number.number(digits: 11) }
+  let(:customer_phone) { Faker::Number.number(digits: 11).to_s }
   let(:customer_email) { Faker::Internet.email }
+  let(:store) { %w[Campinas Jundiaí].sample }
 
-  context 'when came from the website' do
+  context 'when came from the website formulário de contato' do
     let(:email) do
       email = OpenStruct.new
       email.to = [email: 'website@rotakawasaki.f1sales.net']
-      email.subject = "Site Rota K - #{customer_name} - Quero Comprar - Formulário Campinas"
-      email.body = "Nome: #{customer_name}\nE-mail: #{customer_email}\nFone: #{customer_phone}\nInteresse: Consórcio\nUnidade: Campinas\nResposta: Ligação\nMensagem: Lead teste, favor não responder\nPagina:   https://www.rotakawasaki.com.br/novos/ninja-zx-10r-2022/"
+      email.subject = "Contato de #{customer_name} - Formulário #{store}"
+      email.body = "Nome: #{customer_name}\nE-mail: #{customer_email}\nFone: #{customer_phone}\nInteresse: Consórcio\nUnidade: #{store}\nResposta: Ligação\nMensagem: Lead teste, favor não responder\nPagina:   https://www.rotakawasaki.com.br/novos/ninja-zx-10r-2022/"
 
       email
     end
@@ -24,15 +25,15 @@ RSpec.describe F1SalesCustom::Email::Parser do
     end
 
     it 'contains name' do
-      expect(parsed_email[:customer][:name]).to eq('Teste Followize')
+      expect(parsed_email[:customer][:name]).to eq(customer_name)
     end
 
     it 'contains phone' do
-      expect(parsed_email[:customer][:phone]).to eq('99212345132')
+      expect(parsed_email[:customer][:phone]).to eq(customer_phone)
     end
 
     it 'contains email' do
-      expect(parsed_email[:customer][:email]).to eq('followize@teste.com')
+      expect(parsed_email[:customer][:email]).to eq(customer_email)
     end
 
     it 'contains product name' do
@@ -48,7 +49,7 @@ RSpec.describe F1SalesCustom::Email::Parser do
     end
 
     it 'contains description' do
-      expect(parsed_email[:description]).to eq('Interesse: Consórcio - Resposta: Ligação - Unidade: Campinas - Formulário Jundiaí')
+      expect(parsed_email[:description]).to eq("Interesse: Consórcio - Resposta: Ligação - Unidade: #{store} - Formulário #{store}")
     end
   end
 
