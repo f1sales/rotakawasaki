@@ -118,8 +118,8 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
 
     context 'when is from duotalk' do
       before do
-        source.name = 'Followize - Duotalk - WhatsApp API - Jundiaí'
-        lead.description = '[followize_id: 16562072]'
+        source.name = 'Followize - Duotalk'
+        lead.description = 'Rota K - Jundiaí - Duotalk - WhatsApp API [followize_id: 16730487]'
         lead.message = 'url: NaN Mensagem: Conversa iniciada via whatsapp Atendimento: Venda de Motocicletas Loja: Rota K Campinas landLinePhone: 19983560607 @loja: Rota K Campinas'
       end
 
@@ -190,6 +190,33 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       it 'return Duotalk - Jundiaí' do
         expect(switch_source).to eq("#{source_name} - Jundiaí")
       end
+    end
+  end
+
+  context 'when is from website' do
+    let(:source_feature) { %w[Produto Contato Consórcio].sample }
+    let(:store) { %w[Campinas Jundiaí].sample }
+    let(:lead) do
+      lead = OpenStruct.new
+      lead.source = source
+      lead.message = ''
+      lead.description = "Interesse:  - Resposta: Ligação - Unidade: #{store} - Formulário #{store}"
+
+      lead
+    end
+
+    let(:source) do
+      source = OpenStruct.new
+      source.name = source_name
+
+      source
+    end
+
+    let(:source_name) { "Website - #{source_feature}" }
+    let(:switch_source) { described_class.switch_source(lead) }
+
+    it 'return website - Campinas' do
+      expect(switch_source).to eq("#{source_name} - #{store}")
     end
   end
 
