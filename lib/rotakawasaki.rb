@@ -120,6 +120,7 @@ module Rotakawasaki
         return followize_source if source_name_down['followize']
         return facebook_source if source_name_down['facebook']
         return duotalk_source if source_name_down['duotalk']
+        return website_source if source_name_down['website']
 
         @source_name
       end
@@ -166,6 +167,16 @@ module Rotakawasaki
         if message['campinas']
           "#{@source_name} - Campinas"
         elsif message['jundia']
+          "#{@source_name} - Jundiaí"
+        else
+          @source_name
+        end
+      end
+
+      def website_source
+        if description['campinas']
+          "#{@source_name} - Campinas"
+        elsif description['jundia']
           "#{@source_name} - Jundiaí"
         else
           @source_name
