@@ -98,7 +98,7 @@ RSpec.describe F1SalesCustom::Email::Parser do
     end
   end
 
-  context 'when came from the website' do
+  context 'when came from the website - consórcio' do
     let(:email) do
       email = OpenStruct.new
       email.to = [email: 'website@rotakawasaki.f1sales.net']
