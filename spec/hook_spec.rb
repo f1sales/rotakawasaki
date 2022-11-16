@@ -220,6 +220,37 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
   end
 
+  context 'when is product oficina rota k' do
+    let(:lead) do
+      lead = OpenStruct.new
+      lead.source = source
+      lead.product = product
+
+      lead
+    end
+
+    let(:source) do
+      source = OpenStruct.new
+      source.name = source_name
+
+      source
+    end
+
+    let(:product) do
+      product = OpenStruct.new
+      product.name = 'OFICINA ROTA K'
+
+      product
+    end
+
+    let(:source_name) { 'Facebook - Rota Kawasaki' }
+    let(:switch_source) { described_class.switch_source(lead) }
+
+    it 'return original source' do
+      expect(switch_source).to be_nil
+    end
+  end
+
   context 'when is a different source' do
     let(:lead) do
       lead = OpenStruct.new
@@ -235,7 +266,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       source
     end
 
-    let(:source_name) { 'Tartarugas Ninjas são D+' }
+    let(:source_name) { 'Fonte Teste da F1Sales' }
     let(:switch_source) { described_class.switch_source(lead) }
 
     it 'return original source' do
