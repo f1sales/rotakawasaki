@@ -36,7 +36,7 @@ module Rotakawasaki
     end
 
     def regular_expression
-      'Nome|Fone|E-mail|Pagina|Interesse|Unidade|Resposta|Mensagem'
+      'Nome|Fone|Telefone|E-mail|Pagina|Interesse|Unidade|Resposta|Mensagem'
     end
 
     def source
@@ -69,7 +69,7 @@ module Rotakawasaki
     end
 
     def customer_phone
-      parsed_email['fone']
+      parsed_email['fone'] || parsed_email['telefone']
     end
 
     def customer_email
@@ -117,6 +117,7 @@ module Rotakawasaki
       def switch_source(lead)
         @lead = lead
         @source_name = @lead.source.name
+        return nil if product['oficina']
         return followize_source if source_name_down['followize']
         return facebook_source if source_name_down['facebook']
         return duotalk_source if source_name_down['duotalk']
