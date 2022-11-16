@@ -103,7 +103,7 @@ RSpec.describe F1SalesCustom::Email::Parser do
       email = OpenStruct.new
       email.to = [email: 'website@rotakawasaki.f1sales.net']
       email.subject = 'Site Rota K - Quero Consórcio'
-      email.body = "Nome: #{customer_name}\nE-mail: #{customer_email}\nFone: #{customer_phone}\nUnidade: #{store}\nResposta: Ligação\nMensagem: Lead teste, favor não responder\nPagina:   https://www.rotakawasaki.com.br/novos/ninja-zx-10r-2022/"
+      email.body = "Nome: #{customer_name}\nTelefone: #{customer_phone}\nE-mail: #{customer_email}\nUnidade: #{store}\nResposta: Ligação\nMensagem: Lead teste, favor não responder\nPagina:   https://www.rotakawasaki.com.br/novos/ninja-zx-10r-2022/"
 
       email
     end
