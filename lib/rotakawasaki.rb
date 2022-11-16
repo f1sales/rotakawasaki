@@ -36,7 +36,7 @@ module Rotakawasaki
     end
 
     def regular_expression
-      'Nome|Fone|E-mail|Pagina|Interesse|Unidade|Resposta|Mensagem'
+      'Nome|Fone|Telefone|E-mail|Pagina|Interesse|Unidade|Resposta|Mensagem'
     end
 
     def source
