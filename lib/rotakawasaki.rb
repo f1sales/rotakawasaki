@@ -69,7 +69,7 @@ module Rotakawasaki
     end
 
     def customer_phone
-      parsed_email['fone']
+      parsed_email['fone'] || parsed_email['telefone']
     end
 
     def customer_email
